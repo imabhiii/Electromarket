@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tag %}
+{% load product_tags %}
+{% block content %}
+
+     <section class="cart-area pt-120 pb-120">
+            <div class="container">
+               <div class="row">
+                  <div class="col-12">
+                        <form action="#">
+                           <div class="table-content table-responsive">
+                              <table class="table">
+                                  <h2>Your Order</h2>
+                                    <thead>
+                                       <tr>
+                                          <th class="product-thumbnail">Images</th>
+                                          <th class="cart-product-name">Product</th>
+                                          <th class="product-price">Unit Price</th>
+                                          <th class="product-quantity">Quantity</th>
+                                          <th class="product-subtotal">Total</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for key,value in request.session.cart.items %}
+                                       <tr id="id{{value.id}}">
+                                          <td class="product-thumbnail"><a href="shop-details.html"><img src="{{value.featured_image}}" alt=""></a></td>
+                                          <td class="product-name"><a href="shop-details.html">{{value.product_name}}</a></td>
+                                          <td class="product-price"><span class="amount">Rs {{value.price}}</span></td>
+                                          <td class="product-quantity w-25">
+                                              <div class="row">
+                                                  <a>{{value.quantity}}</a>
+                                              </div>
+                                          </td>
+                                          <td class="product-subtotal"><span class="amount" id="amount">Rs {{ value.price|multiply:value.quantity}}</span></td>
+                                       </tr>
+                                    {% endfor %}
+                                    </tbody>
+                              </table>
+                           </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="cart-shiping-update-wrapper coupon-all">
+                                        <div class="cart-shiping-update">
+                                            <button type="button" class="tp-btn-h1" id="payment-button">Pay with Khalti</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- cart-area-end -->
+<script>
+        function verifyPayment(payload){
+            $.ajax({
+                url: "{% url 'verify_payment' %}",
+                type: "POST",
+                data: payload,
+                datatype: 'json',
+                success: function (response) { alert(response) },
+                error: function (error) { alert(error.responseJSON['message']) }
+            });
+        }
+
+        var config = {
+            // replace the publicKey with yours
+            "publicKey": "test_public_key_3998390df7c2495195d5ea29b4e3a2f5",
+            "productIdentity": "1234567890",
+            "productName": "product.product_name",
+            "productUrl": "http://localhost:8000",
+            "paymentPreference": [
+                "KHALTI",
+                "EBANKING",
+                "MOBILE_BANKING",
+                "CONNECT_IPS",
+                "SCT",
+                ],
+            "eventHandler": {
+                onSuccess (payload) {
+                    // hit merchant api for initiating verfication
+                    console.log(payload);
+                    verifyPayment(payload)
+                    alert("Thanks Payment Completed Successfully")
+                    location.href= "/"
+                },
+                onError (error) {
+                    console.log(error);
+                },
+                onClose () {
+                    console.log('widget is closing');
+                }
+            }
+        };
+
+        var checkout = new KhaltiCheckout(config);
+        var btn = document.getElementById("payment-button");
+        btn.onclick = function () {
+            // minimum transaction amount must be 10, i.e 1000 in paisa.
+            checkout.show({amount: 1000});
+        }
+    </script>
+{% endblock %}

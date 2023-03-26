@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if request.session.cart|length < 1 %}
+<div class="empty-cart-area pb-100px pt-100px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="cart-heading">
+                            <h2>Your cart item</h2>
+                        </div>
+                        <div class="empty-text-contant text-center">
+                            <i class="pe-7s-shopbag"></i>
+                            <h3>There are no more items in your cart</h3>
+                            <a class="empty-cart-btn" href="{% url 'product' %}">
+                                <i class="fa fa-arrow-left"> </i><h4 style="color:green;">Continue shopping</h4>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+</div>
+{% else %}
+{% load cart_tag %}
+{% load product_tags %}
+ <main>
+        <!-- page-banner-area-start -->
+        <div class="page-banner-area page-banner-height-2" data-background="{% static 'assets/img/banner/page-banner-4.jpg' %}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="page-banner-content text-center">
+                            <h4 class="breadcrumb-title">Your Cart</h4>
+                            <div class="breadcrumb-two">
+                                <nav>
+                                   <nav class="breadcrumb-trail breadcrumbs">
+                                      <ul class="breadcrumb-menu">
+                                         <li class="breadcrumb-trail">
+                                            <a href="{% url 'home' %}"><span>Home</span></a>
+                                         </li>
+                                         <li class="trail-item">
+                                            <span>Cart</span>
+                                         </li>
+                                      </ul>
+                                   </nav>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- page-banner-area-end -->
+
+        <!-- cart-area-start -->
+        <section class="cart-area pt-120 pb-120">
+            <div class="container">
+               <div class="row">
+                  <div class="col-12">
+                        <form action="#">
+                           <div class="table-content table-responsive">
+                              <table class="table">
+                                    <thead>
+                                       <tr>
+                                          <th class="product-thumbnail">Images</th>
+                                          <th class="cart-product-name">Product</th>
+                                          <th class="product-price">Unit Price</th>
+                                          <th class="product-quantity">Quantity</th>
+                                          <th class="product-subtotal">Total</th>
+                                          <th class="product-remove">Remove</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for key,value in request.session.cart.items %}
+                                       <tr id="id{{value.id}}">
+                                          <td class="product-thumbnail"><a href="shop-details.html"><img src="{{value.featured_image}}" alt=""></a></td>
+                                          <td class="product-name"><a href="shop-details.html">{{value.product_name}}</a></td>
+                                          <td class="product-price"><span class="amount">Rs {{value.price}}</span></td>
+                                          <td class="product-quantity w-25">
+                                              <div class="row">
+                                                  <div class="col-4">
+                                                    <a href="{% url 'item_decrement' value.product_id %}#id{{value.id}}" class="text-center">-</a>
+                                                  </div>
+                                                  <div class="col-4">
+                                                      <input type="text" value="{{value.quantity}}" class="from-control border-0 text-center">
+                                                  </div>
+                                                  <div class="col-4">
+                                                    <a href="{% url 'item_increment' value.product_id %}#id{{value.id}}" class="text-center">+</a>
+                                                  </div>
+                                              </div>
+                                          </td>
+                                          <td class="product-subtotal"><span class="amount">Rs {{ value.price|multiply:value.quantity }}</span></td>
+                                          <td class="product-remove"><a href="{% url 'item_clear' key %}"><i class="fa fa-times"></i></a></td>
+                                       </tr>
+                                    {% endfor %}
+                                    </tbody>
+                              </table>
+                           </div>
+                           <div class="row">
+                              <div class="col-12">
+                                    <div class="coupon-all">
+                                        <form method="get">
+                                            <div class="coupon">
+                                            {% if valid_coupon %}
+                                            <div class="alert alert-success alert-bs-dismissible fade show" role="alert">
+                                                <strong>{{coupon.code}}</strong>&nbsp;{{valid_coupon}}
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            {% elif invalid_coupon %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                {{invalid_coupon}}
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            {% endif %}
+                                                <input id="coupon_code" class="input-text" name="coupon_code" placeholder="Coupon code" type="text">
+                                                <button class="tp-btn-h1" type="submit">Apply
+                                                        coupon
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <div class="coupon2">
+                                            <a href="{% url 'cart_clear' %}" class="tp-btn-h1" name="update_cart">Clear cart</a>
+                                        </div>
+                                    </div>
+                              </div>
+                           </div>
+                           <div class="row justify-content-end">
+                              <div class="col-md-5">
+                                    <div class="cart-page-total">
+                                       <h2>Cart totals</h2>
+                                       <ul class="mb-20">
+                                           <li>Items <span>Rs {{cart_total_amount}}</span></li>
+                                           <li>Packing Cost <span>Rs {{packing_cost}}</span></li>
+                                           <li>Tax <span>Rs {{tax}}</span></li>
+                                           {% if valid_coupon %}
+                                           <li class="text-success">Coupon Code Applied <span>{{coupon.discount}}%</span></li>
+                                           {% endif %}
+                                           {% if cart_total_amount > 500 %}
+                                           <li class="text-success">Delivery Charge <span class="text-success">Free</span></li>
+                                           <li class="text-danger">Order Total <span class="text-danger">Rs {{cart_total_amount|add:packing_cost|add:tax}}</span></li>
+                                           {% else %}
+                                           <li>Delivery Charge <span>Rs 120</span></li>
+                                           <li class="text-danger">Order Total <span class="text-danger">Rs {{cart_total_amount|add:packing_cost|add:tax|add:120}}</span></li>
+                                           {% endif %}
+                                       </ul>
+                                       <a class="tp-btn-h1" href="{% url 'checkout' %}">Proceed to checkout</a>
+                                    </div>
+                              </div>
+                           </div>
+                        </form>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- cart-area-end -->
+
+        <!-- cta-area-start -->
+        <section class="cta-area d-ldark-bg pt-55 pb-10">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="cta-item cta-item-d mb-30">
+                            <h5 class="cta-title">Follow Us</h5>
+                            <p>We make consolidating, marketing and tracking your social media website easy.</p>
+                            <div class="cta-social">
+                                <div class="social-icon">
+                                    <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="youtube"><i class="fab fa-youtube"></i></a>
+                                    <a href="#" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="cta-item mb-30">
+                            <h5 class="cta-title">Sign Up To Newsletter</h5>
+                            <p>Join 60.000+ subscribers and get a new discount coupon  on every Saturday.</p>
+                            <div class="subscribe__form">
+                                <form action="#">
+                                    <input type="email" placeholder="Enter your email here...">
+                                    <button>subscribe</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="cta-item mb-30">
+                            <h5 class="cta-title">Download App</h5>
+                            <p>ElectroMarket App is now available on App Store & Google Play. Get it now.</p>
+                            <div class="cta-apps">
+                                <div class="apps-store">
+                                    <a href="#"><img src="{% static 'assets/img/brand/app_ios.png' %}" alt=""></a>
+                                    <a href="#"><img src="{% static 'assets/img/brand/app_android.png' %}" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- cta-area-end -->
+    </main>
+{% endif %}
+<script>
+    var item_amounts = {{cart_total_amount}};
+    var tax = {{tax}}
+    var packing_cost = {{packing_cost}}
+    var total = tax + packing_cost;
+
+    var coupon_discount = {{coupon_discount}}
+    console.log(coupon_discount)
+    if(coupon_discount){
+        if(item_amounts < 500){
+            cal_discount = item_amounts - (item_amounts * coupon_discount / 100) + total + 120
+            document.getElementById("total").innerHTML = "Rs" + " " + cal_discount.toFixed()
+        }
+        else{
+            cal_discount = item_amounts - (item_amounts * coupon_discount / 100) + total
+            document.getElementById("total").innerHTML = "Rs" + " " + cal_discount.toFixed()
+        }
+    }
+</script>
+{% endblock %}

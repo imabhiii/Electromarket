@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+ <main>
+        <!-- page-banner-area-start -->
+        <div class="page-banner-area page-banner-height" data-background="{% static 'assets/img/banner/page-banner-1.jpg'%}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="page-banner-content text-center">
+                            <h3>About Us</h3>
+                            <p>A wonderful serenity has taken possession of my entire soul, like these <br> sweet mornings of spring which I enjoy with my whole heart.</p>
+                            <div class="page-bottom-btn mt-55">
+                                <a href="shop.html" class="st-btn-4">Discover now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- page-banner-area-end -->
+
+        <!-- about-area-start -->
+        <div class="about-area pt-80 pb-80" data-background="assets/img/bg/about-bg.png">
+            <div class="container">
+                <div class="row align-items-center">
+                   <div class="col-xl-6 col-lg-6">
+                       <div class="about-content">
+                           <span>ABOUT OUR ONLINE STORE</span>
+                           <h4>Hello,</h4>
+                           <h5 class="banner-t mb-30"></h5>
+                           <p class="about-text">Electromarket helping companies reach their <br> financial and branding goals.</p>
+
+                       </div>
+                   </div>
+                   <div class="col-xl-6 col-lg-6">
+                        <div class="about-image w-img">
+                            <img src="{% static 'assets/img/about/about-b.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- about-area-end -->
+
+        <!-- services-area-start -->
+        <div class="services-area pt-70 light-bg-s pb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="abs-section-title text-center">
+                            <span>HOW IT WORKS</span>
+                            <h4>Complete Customer Ideas</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- services-area-end -->
+
+        <!-- team-area-start -->
+        <div class="team-area light-bg-s pt-70 pb-40">
+            <div class="container">
+                <div class="row mb-35">
+                    <div class="col-xl-12">
+                        <div class="abs-section-title text-center">
+                            <span>THE TEAM</span>
+                            <h4>Meet Our Team</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-team text-center mb-30">
+                            <div class="team-image mb-35 w-img">
+                                <div class="inner-timg">
+                                    <a href="{% url 'about' %}">
+                                        <img src="{% static 'assets/img/team/abhi1.jpg' %}" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="tauthor-degination mb-15">
+                                <h5><a href="{% url 'about' %}">Abhishek Jaiswal</a></h5>
+                                <span>CEO & Founder</span>
+                            </div>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-team text-center mb-30">
+                            <div class="team-image mb-35 w-img">
+                                <div class="inner-timg">
+                                    <a href="about.html">
+                                        <img src="{% static 'assets/img/team/prajita.jpg'%}" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="tauthor-degination mb-15">
+                                <h5><a href="{% url 'about' %}">Prajita KC</a></h5>
+                                <span>CEO & Founder</span>
+                            </div>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-team text-center mb-30">
+                            <div class="team-image mb-35 w-img">
+                                <div class="inner-timg">
+                                    <a href="about.html">
+                                        <img src="{% static 'assets/img/team/chiran.jpg'%}" alt="" >
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="tauthor-degination mb-15">
+                                <h5><a href="about.html">Chiranjivi Acharya</a></h5>
+                                <span>CEO & Founder</span>
+                            </div>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- team-area-end -->
+
+        <!-- location-area-start -->
+        <div class="location-area pt-70 pb-25">
+            <div class="container">
+                <div class="row mb-25">
+                    <div class="col-xl-12">
+                        <div class="abs-section-title text-center">
+                            <span>LOCATION STORE</span>
+                            <h4>Where We Are</h4>
+                           </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="location-item mb-30">
+                            <div class="location-image w-img mb-20">
+                                <img src="{% static 'assets/img/location/locationimg.jpg' %}" alt="">
+                            </div>
+                            <h6>New Baneswor, Kathmandu</h6>
+                            <div class="sm-item-loc sm-item-border mb-20">
+                                <div class="sml-icon mr-20">
+                                    <i class="fal fa-map-marker-alt"></i>
+                                </div>
+                                <div class="sm-content">
+                                    <span>Find us</span>
+                                    <p>Near Uniglobe College, Kathmandu</p>
+                                </div>
+                            </div>
+                            <div class="sm-item-loc sm-item-border mb-20">
+                                <div class="sml-icon mr-20">
+                                    <i class="fal fa-phone-alt"></i>
+                                </div>
+                                <div class="sm-content">
+                                    <span>Call us</span>
+                                    <p><a href="tel:071-5454104">(+977) 9821-417430</a></p>
+                                </div>
+                            </div>
+                            <div class="sm-item-loc mb-20">
+                                <div class="sml-icon mr-20">
+                                    <i class="fal fa-envelope"></i>
+                                </div>
+                                <div class="sm-content">
+                                    <span>Mail us</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="location-item mb-30">
+                            <div class="location-image w-img mb-20">
+                                <img src="{% static 'assets/img/location/putalisadakloc.jpg' %}" alt="">
+                            </div>
+                            <h6>Putalisadak - kathmandu, Nepal</h6>
+                            <div class="sm-item-loc sm-item-border mb-20">
+                                <div class="sml-icon mr-20">
+                                    <i class="fal fa-map-marker-alt"></i>
+                                </div>
+                                <div class="sm-content">
+                                    <span>Find us</span>
+                                    <p>Near KCC, Putalisadak Kathmandu</p>
+                                </div>
+                            </div>
+                            <div class="sm-item-loc sm-item-border mb-20">
+                                <div class="sml-icon mr-20">
+                                    <i class="fal fa-phone-alt"></i>
+                                </div>
+                                <div class="sm-content">
+                                    <span>Call us</span>
+                                    <p><a href="tel:+71-532133">(+977) 9821453401</a></p>
+                                </div>
+                            </div>
+                            <div class="sm-item-loc mb-20">
+                                <div class="sml-icon mr-20">
+                                    <i class="fal fa-envelope"></i>
+                                </div>
+                                <div class="sm-content">
+                                    <span>Mail us</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- location-area-end -->
+
+        <!-- cta-area-start -->
+        <section class="cta-area d-ldark-bg pt-55 pb-10">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="cta-item cta-item-d mb-30">
+                            <h5 class="cta-title">Follow Us</h5>
+                            <p>We make consolidating, marketing and tracking your social media website easy.</p>
+                            <div class="cta-social">
+                                <div class="social-icon">
+                                    <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="youtube"><i class="fab fa-youtube"></i></a>
+                                    <a href="#" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="cta-item mb-30">
+                            <h5 class="cta-title">Sign Up To Newsletter</h5>
+                            <p>Join 60.000+ subscribers and get a new discount coupon  on every Saturday.</p>
+                            <div class="subscribe__form">
+                                <form action="#">
+                                    <input type="email" placeholder="Enter your email here...">
+                                    <button>subscribe</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="cta-item mb-30">
+                            <h5 class="cta-title">Download App</h5>
+                            <p>ElectroMarket App is now available on App Store & Google Play. Get it now.</p>
+                            <div class="cta-apps">
+                                <div class="apps-store">
+                                    <a href="#"><img src="{% static 'assets/img/brand/app_ios.png' %}" alt=""></a>
+                                    <a href="#"><img src="{% static 'assets/img/brand/app_android.png' %}" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- cta-area-end -->
+
+    </main>
+
+
+{% endblock %}

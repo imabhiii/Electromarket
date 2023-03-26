@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load product_tags %}
+{% block content %}
+
+        <!-- breadcrumb__area-start -->
+        <section class="breadcrumb__area box-plr-75">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xxl-12">
+                        <div class="breadcrumb__wrapper">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                  <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                                </ol>
+                              </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- breadcrumb__area-end -->
+
+        <!-- product-details-start -->
+        <div class="product-details">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="product__details-nav d-sm-flex align-items-start">
+                            <ul class="nav nav-tabs flex-sm-column justify-content-between" id="productThumbTab" role="tablist">
+                                {% for i in product.product_image_set.all %}
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link" id="thumb{{i.id}}-tab" data-bs-toggle="tab" data-bs-target="#thumb{{i.id}}" type="button" role="tab" aria-controls="thumb{{i.id}}" aria-selected="true">
+                                      <img src="{{i.Image_url}}" alt="" style="width:85px; height:85px;">
+                                  </button>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="product__details-thumb">
+                                <div class="tab-content" id="productThumbContent">
+                                    <div class="tab-pane fade show active" id="thumb" role="tabpanel" aria-labelledby="thumb-tab">
+                                        <div class="product__details-nav-thumb w-img">
+                                            <img src="{{product.product_image_set.first.Image_url}}" alt="">
+                                        </div>
+                                    </div>
+                                    {% for i in product.product_image_set.all %}
+                                    <div class="tab-pane fade show" id="thumb{{i.id}}" role="tabpanel" aria-labelledby="thumb{{i.id}}-tab">
+                                        <div class="product__details-nav-thumb w-img">
+                                            <img src="{{i.Image_url}}" alt="">
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="product__details-content">
+                            <h6>{{product.product_name}}</h6>
+                            <div class="pd-rating mb-10">
+                                <ul class="rating">
+                                    <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                </ul>
+                                <span>(01 review)</span>
+                                <span><a href="#">Add your review</a></span>
+                            </div>
+                            <div class="price mb-10">
+                                <span>Rs {% call_sellprice product.price product.Discount %}</span><del>{{product.price}}</del>
+                            </div>
+                            <div class="features-des mb-20 mt-10">
+                                <ul>
+                                    <li><a href="product-details.html">{{product.Product_Information|safe|truncatechars:500}}</a></li>
+                                </ul>
+                            </div>
+                            <div class="product-stock mb-20">
+                                <h5>Availability: <span> {{product.Availability}}/{{product.total_quantity}} in stock</span></h5>
+                            </div>
+                            <div class="cart-option mb-15">
+<!--                                <div class="product-quantity mr-20">-->
+<!--                                    <div class="cart-plus-minus p-relative"><input type="text" value="1"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>-->
+<!--                                </div>-->
+                                <a href="{% url 'cart_add' product.id %}" class="cart-btn">Add to Cart</a>
+                            </div>
+                            <div class="details-meta">
+                                <div class="d-meta-left">
+                                    <div class="dm-item mr-20">
+                                        <a href="{% url 'add_to_wishlist' product.id %}"><i class="fal fa-heart"></i>Add to wishlist</a>
+                                    </div>
+<!--                                    <div class="dm-item">-->
+<!--                                        <a href="#"><i class="fal fa-layer-group"></i>Compare</a>-->
+<!--                                    </div>-->
+                                </div>
+<!--                                <div class="d-meta-left">-->
+<!--                                    <div class="dm-item">-->
+<!--                                        <a href="#"><i class="fal fa-share-alt"></i>Share</a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                            </div>
+                            <div class="product-tag-area mt-15">
+                                <div class="product_info">
+                                    <span class="sku_wrapper">
+                                        <span class="title">Model Name:</span>
+                                        <span class="sku">{{product.model_Name}}</span>
+                                    </span>
+                                    <span class="posted_in">
+                                        <span class="title">Categories:</span>
+                                        <a href="#">{{product.Categories}}</a>
+                                    </span>
+                                    <span class="tagged_as">
+                                        <span class="title">Tags:</span>
+                                        <a href="#">{{product.Tags}}</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- product-details-end -->
+<!---Related-product--->
+        <h2 class="h5 text-uppercase mb-4">Related products</h2>
+                        <div class="tab-content" id="productGridTabContent">
+                            <div class="tab-pane fade  show active" id="FourCol" role="tabpanel" aria-labelledby="FourCol-tab">
+                                <div class="tp-wrapper">
+                                    <div class="row g-0" id="filteredProducts">
+                                        {% if related_products %}
+                                            {% for rp in related_products %}
+                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                                            <div class="product__item product__item-d">
+                                                <div class="product__thumb fix">
+                                                    <div class="product-image w-img">
+                                                        <a href="{{rp.get_absolute_url}}">
+                                                            <img src="{{rp.featured_image}}" alt="product" height="200px;">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product__offer">
+                                                        <span class="new">{{rp.condition}}</span>
+                                                    </div>
+                                                    <div class="product-action">
+                                                        <a href="#" class="icon-box icon-box-1" data-bs-toggle="modal" data-bs-target="#productModalId-{{forloop.counter}}">
+                                                            <i class="fal fa-eye"></i>
+                                                            <i class="fal fa-eye"></i>
+                                                        </a>
+                                                        <a href="{% url 'add_to_wishlist' rp.id %}" class="icon-box icon-box-1">
+                                                            <i class="fal fa-heart"></i>
+                                                            <i class="fal fa-heart"></i>
+                                                        </a>
+                                                        <a href="#" class="icon-box icon-box-1">
+                                                            <i class="fal fa-layer-group"></i>
+                                                            <i class="fal fa-layer-group"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="product__content-3">
+                                                    <h6><a href="{{rp.get_absolute_url}}">{{rp.product_name}}</a></h6>
+                                                    <div class="rating mb-5">
+                                                        <ul>
+                                                            <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                                        </ul>
+                                                        <span>(01 review)</span>
+                                                    </div>
+                                                    <div class="price mb-10">
+                                                        <span>Rs {{rp.price}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product__add-cart-s text-center">
+                                                    <a href="{% url 'cart_add' rp.id %}" class="cart-btn d-flex mb-10 align-items-center justify-content-center w-100">
+                                                    Add to Cart
+                                                    </a>
+                                                    <button class="wc-checkout d-flex align-items-center justify-content-center w-100" data-bs-toggle="modal" data-bs-target="#productModalId-{{forloop.counter}}">
+                                                        Quick View
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+      <!---Related-product--->
+        <!-- product-details-des-start -->
+        <div class="product-details-des mt-40 mb-60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="product__details-des-tab">
+                            <ul class="nav nav-tabs" id="productDesTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link active" id="des-tab" data-bs-toggle="tab" data-bs-target="#des" type="button" role="tab" aria-controls="des" aria-selected="true">Description </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="aditional-tab" data-bs-toggle="tab" data-bs-target="#aditional" type="button" role="tab" aria-controls="aditional" aria-selected="false">Additional information</button>
+                                  </li>
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab" aria-controls="review" aria-selected="false">Reviews (1) </button>
+                                </li>
+                              </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="prodductDesTaContent">
+                    <div class="tab-pane fade active show" id="des" role="tabpanel" aria-labelledby="des-tab">
+                        <div class="product__details-des-wrapper">
+                           {{product.Description|safe}}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="aditional" role="tabpanel" aria-labelledby="aditional-tab">
+                        <div class="product__desc-info">
+                            <ul>
+                                {% for i in product.additional_information_set.all %}
+                               <li>
+                                  <h6>{{i.specification}}</h6>
+                                  <span>{{i.detail}}</span>
+                               </li>
+                                {% endfor %}
+                            </ul>
+                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                        <div class="product__details-review">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="review-rate">
+                                        <h5>5.00</h5>
+                                        <div class="review-star">
+                                            <a href="#"><i class="fas fa-star"></i></a>
+                                            <a href="#"><i class="fas fa-star"></i></a>
+                                            <a href="#"><i class="fas fa-star"></i></a>
+                                            <a href="#"><i class="fas fa-star"></i></a>
+                                            <a href="#"><i class="fas fa-star"></i></a>
+                                        </div>
+                                        <span class="review-count">01 Review</span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-8">
+                                    <div class="review-des-infod">
+                                        <h6>1 review for "<span></span>"</h6>
+                                        <div class="review-details-des">
+                                            <div class="author-image mr-15">
+                                                <a href="#"><img src="assets/img/author/author-sm-1.jpg" alt=""></a>
+                                            </div>
+                                            <div class="review-details-content">
+                                                <div class="str-info">
+                                                    <div class="review-star mr-15">
+                                                        <a href="#"><i class="fas fa-star"></i></a>
+                                                        <a href="#"><i class="fas fa-star"></i></a>
+                                                        <a href="#"><i class="fas fa-star"></i></a>
+                                                        <a href="#"><i class="fas fa-star"></i></a>
+                                                        <a href="#"><i class="fas fa-star"></i></a>
+                                                    </div>
+                                                    <div class="add-review-option">
+                                                        <a href="#">Add Review</a>
+                                                    </div>
+                                                </div>
+                                                <div class="name-date mb-30">
+                                                    <h6><span> </span></h6>
+                                                </div>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="product__details-comment ">
+                                        <div class="comment-title mb-20">
+                                           <h3>Add a review</h3>
+                                           <p>Your email address will not be published. Required fields are marked *</p>
+                                        </div>
+<!--                                        {% if messages %}-->
+<!--                                            {% for message in messages %}-->
+<!--                                                <div class="alert alert-{{message.tags}}" role="alert">-->
+<!--                                                    {{message}}-->
+<!--                                                </div>-->
+<!--                                            {% endfor %}-->
+<!--                                        {% endif %}-->
+                                        <div class="comment-input-box">
+                                           <form action="#" method="POST">
+                                               {% csrf_token %}
+                                              <div class="row">
+                                                 <div class="col-xxl-6 col-xl-6">
+                                                    <div class="comment-input">
+                                                       <input type="text" placeholder="Your Name" name="first_name">
+                                                    </div>
+                                                 </div>
+                                                 <div class="col-xxl-6 col-xl-6">
+                                                    <div class="comment-input">
+                                                       <input type="email" placeholder="Your Email" name="email">
+                                                    </div>
+                                                 </div>
+                                                 <div class="col-xxl-12">
+                                                       <textarea placeholder="Your review" name="review_text" class="comment-input comment-textarea"></textarea>
+                                                 </div>
+                                                  <div class="col-xxl-12">
+                                                      <div class="comment-rating mb-20">
+                                           <span>Overall ratings</span>
+                                           <ul>
+                                              <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                              <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                              <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                              <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                              <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                           </ul>
+                                        </div>
+                                                  </div>
+                                                 <div class="col-xxl-12">
+                                                    <div class="comment-agree d-flex align-items-center mb-25">
+                                                       <div class="form-check">
+                                                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                          <label class="form-check-label" for="flexCheckDefault">
+                                                           Save my name, email, and website in this browser for the next time I comment.
+                                                          </label>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class="col-xxl-12">
+                                                    <div class="comment-submit">
+                                                       <button type="submit" class="cart-btn">Submit</button>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                           </form>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                        </div>
+        <!-- product-details-des-end -->
+{% endblock %}
